@@ -1,0 +1,14 @@
+/* main.scss */
+@import "override-variables";
+
+@import "bootstrap-custom";
+@import "bootstrap/theme";
+
+body {
+	background-color: #f1f2f7;
+}
+
+.coffee-container {
+	width: 50%;
+	margin: 0 auto;
+}
