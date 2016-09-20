@@ -11,4 +11,25 @@ body {
 .coffee-container {
 	width: 50%;
 	margin: 0 auto;
+
+	@media screen and (max-width: $screen-sm) {
+		width: 90%;
+	}
+}
+
+#vis {
+	margin-top: 4em;
+}
+
+.bar {
+  fill: steelblue;
+  transition: all 0.2s ease-in-out;
+}
+
+.bar:hover {
+  fill: darken(steelblue, 10%);
+}
+
+.axis--x path {
+  display: none;
 }

@@ -6278,3 +6278,19 @@ body {
 .coffee-container {
   width: 50%;
   margin: 0 auto; }
+  @media screen and (max-width: 768px) {
+    .coffee-container {
+      width: 90%; } }
+
+#vis {
+  margin-top: 4em; }
+
+.bar {
+  fill: steelblue;
+  transition: all 0.2s ease-in-out; }
+
+.bar:hover {
+  fill: #38678f; }
+
+.axis--x path {
+  display: none; }
