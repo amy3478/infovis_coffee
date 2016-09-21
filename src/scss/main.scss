@@ -4,8 +4,12 @@
 @import "bootstrap-custom";
 @import "bootstrap/theme";
 
+* {
+	font-family: 'Open Sans', Helvetica, sans-serif;
+}
+
 body {
-	background-color: #f1f2f7;
+	background-color: #fff;
 }
 
 .coffee-container {
@@ -18,17 +22,17 @@ body {
 }
 
 #vis {
-	margin-top: 4em;
+	margin-top: 8em;
 	width: 100%;
 }
 
 .bar {
-  fill: steelblue;
+  // fill: steelblue;
   transition: all 0.2s ease-in-out;
 }
 
 .bar:hover {
-  fill: darken(steelblue, 10%);
+  opacity: 0.7;
 }
 
 .axis--x path {
@@ -38,6 +42,74 @@ body {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #454545;
   shape-rendering: crispEdges;
+}
+
+.tick text {
+	font-size: 16px;
+	font-weight: 300;
+}
+
+
+
+/*
+ * Control group
+ */
+.controls {
+	margin-top: 4em;
+}
+.btn-default {
+	background-image: none;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	text-shadow: none;
+	box-shadow: none;
+	transition: all 0.2s ease-in-out;
+
+	&:hover, &:active, &:focus {
+		background-image: none;
+		box-shadow: none;
+		background-color: darken(#fff, 10%);
+		text-shadow: none;
+	}
+}
+.btn-group.open .dropdown-toggle {
+	box-shadow: none;
+	background-color: darken(#fff, 10%);
+
+	&:hover, &:active, &:focus {
+		background-image: none;
+		box-shadow: none;
+		background-color: #ddd;
+		text-shadow: none;
+	}
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-image: none;
+	background-color: #ddd;
+}
+.dropdown-menu > li > a:hover {
+	background-color: #eee;
+}
+.dropdown-control {
+	display: flex;
+
+	label {
+		align-self: center;
+		margin-right: 12px;
+	}
+
+
+}
+.btn-update {
+	width: 100%;
+	border: none;
+	background-color: #0DA7DA;
+	color: #fff;
+
+	&:hover, &:active, &:focus {
+		background-color: darken(#0DA7DA, 10%);
+		color: #fff;
+	}
 }

@@ -6,7 +6,7 @@ var categoryProfitData;
 
 var vis,
 	chart,
-	margin = {top: 20, right: 40, bottom: 30, left: 20},
+	margin = {top: 20, right: 80, bottom: 30, left: 20},
     width = $("#vis").width(),
     height = width / 4 * 3,
     visW = width - margin.left - margin.right,
@@ -38,6 +38,9 @@ function init() {
       .attr("class", "axis axis--y")
       .attr("transform", "translate(" + visW + ", 0 )")
       .call(d3.axisRight(y).ticks(6));
+
+    vis.selectAll('.axis line, .axis path')
+     .style({'stroke': '#454545', 'fill': 'none', 'stroke-width': '3px'});
 
    updateClicked();
 }
@@ -127,6 +130,7 @@ function updateClicked(){
   }
 }
 
+var colors = ["#26AE60","#47BAC1","#3398DB","#F1C40F"];
 function update(data) {
 	var myX = d3.scaleBand()
 		.rangeRound([0, visW])
@@ -142,11 +146,13 @@ function update(data) {
 	vis.select(".axis--x")
 		.transition()
 		.duration(500)
+		.attr("transform", "translate(0," + visH + ")")
 		.call(d3.axisBottom().scale(myX));
 
 	vis.select(".axis--y")
 		.transition()
 		.duration(500)
+		.attr("transform", "translate(" + visW + ", 0 )")
 		.call(d3.axisRight().scale(myY).ticks(6));
 
 	var u = vis.selectAll(".bar")
@@ -162,8 +168,11 @@ function update(data) {
 		.merge(u)
 	    .transition()
 	    .duration(500)
+	    .attr("x", function(d) { return myX(d.key); })
 		.attr("y", function(d) { return myY(d.value); })
-		.attr("height", function(d) { return visH - myY(d.value); });
+		.attr("width", myX.bandwidth())
+		.attr("height", function(d) { return visH - myY(d.value); })
+		.attr("fill", function(d,i) {return colors[i];});
 
 	u.exit()
 		.transition()
@@ -189,5 +198,21 @@ function getYSelectedOption(){
   return node[i].value;
 }
 
+function updateSize() {
+	width = $("#vis").width(),
+    height = width / 4 * 3,
+    visW = width - margin.left - margin.right,
+    visH = height - margin.top - margin.bottom;
+
+    console.log("width",width);
+
+    chart.attr("width", width)
+		.attr("height", height);
+
+	vis.attr("width", visW)
+		.attr("height", visH);
+
+    updateClicked();
+}
 
 
