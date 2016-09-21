@@ -4,16 +4,23 @@ var regionProfitData;
 var categorySalesData;
 var categoryProfitData;
 
+var colors = ["#26AE60","#47BAC1","#3398DB","#F1C40F"];
+
 var vis,
 	chart,
 	margin = {top: 20, right: 80, bottom: 30, left: 20},
     width = $("#vis").width(),
-    height = width / 4 * 3,
+    height = width / 5 * 3,
     visW = width - margin.left - margin.right,
     visH = height - margin.top - margin.bottom;
 
 var x = d3.scaleBand().rangeRound([0, visW]).padding(0.3),
 	y = d3.scaleLinear().rangeRound([visH, 0]).domain([0, 1000]);
+
+var tip = d3.tip()
+	.attr('class', 'd3-tip')
+	.html(function(d) { return d.value; })
+    .offset([-12, 0]);
 
 
 function init() {
@@ -21,6 +28,8 @@ function init() {
 		.classed("chart",true)
 		.attr("width", width)
 		.attr("height", height);
+
+	chart.call(tip);
 
 	vis = chart.append('g')
 		.attr("width", visW)
@@ -130,7 +139,6 @@ function updateClicked(){
   }
 }
 
-var colors = ["#26AE60","#47BAC1","#3398DB","#F1C40F"];
 function update(data) {
 	var myX = d3.scaleBand()
 		.rangeRound([0, visW])
@@ -166,6 +174,8 @@ function update(data) {
 		.attr("width", myX.bandwidth())
 		.attr("height", function(d) { return 0; })
 		.merge(u)
+		.on('mouseover', tip.show)
+      	.on('mouseout', tip.hide)
 	    .transition()
 	    .duration(500)
 	    .attr("x", function(d) { return myX(d.key); })

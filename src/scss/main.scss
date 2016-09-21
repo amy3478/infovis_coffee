@@ -67,6 +67,9 @@ body {
 	box-shadow: none;
 	transition: all 0.2s ease-in-out;
 
+	padding-top: 0.8em;
+    padding-bottom: 0.8em;
+
 	&:hover, &:active, &:focus {
 		background-image: none;
 		box-shadow: none;
@@ -94,12 +97,17 @@ body {
 }
 .dropdown-control {
 	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1em;
 
 	label {
 		align-self: center;
 		margin-right: 12px;
 	}
 
+	.btn-group {
+		flex-grow: 1;
+	}	
 
 }
 .btn-update {
@@ -107,9 +115,18 @@ body {
 	border: none;
 	background-color: #0DA7DA;
 	color: #fff;
+	margin-bottom: 1em;
 
 	&:hover, &:active, &:focus {
 		background-color: darken(#0DA7DA, 10%);
 		color: #fff;
 	}
+}
+
+
+.d3-tip {
+	background-color: #454545;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
 }

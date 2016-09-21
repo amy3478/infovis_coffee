@@ -6317,7 +6317,9 @@ body {
   border: 1px solid #ccc;
   text-shadow: none;
   box-shadow: none;
-  transition: all 0.2s ease-in-out; }
+  transition: all 0.2s ease-in-out;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em; }
   .btn-default:hover, .btn-default:active, .btn-default:focus {
     background-image: none;
     box-shadow: none;
@@ -6341,16 +6343,27 @@ body {
   background-color: #eee; }
 
 .dropdown-control {
-  display: flex; }
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em; }
   .dropdown-control label {
     align-self: center;
     margin-right: 12px; }
+  .dropdown-control .btn-group {
+    flex-grow: 1; }
 
 .btn-update {
   width: 100%;
   border: none;
   background-color: #0DA7DA;
-  color: #fff; }
+  color: #fff;
+  margin-bottom: 1em; }
   .btn-update:hover, .btn-update:active, .btn-update:focus {
     background-color: #0a82aa;
     color: #fff; }
+
+.d3-tip {
+  background-color: #454545;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px; }
