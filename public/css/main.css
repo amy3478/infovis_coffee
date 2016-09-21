@@ -6283,7 +6283,8 @@ body {
       width: 90%; } }
 
 #vis {
-  margin-top: 4em; }
+  margin-top: 4em;
+  width: 100%; }
 
 .bar {
   fill: steelblue;
@@ -6292,5 +6293,8 @@ body {
 .bar:hover {
   fill: #38678f; }
 
-.axis--x path {
-  display: none; }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges; }

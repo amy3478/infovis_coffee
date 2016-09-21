@@ -19,6 +19,7 @@ body {
 
 #vis {
 	margin-top: 4em;
+	width: 100%;
 }
 
 .bar {
@@ -31,5 +32,12 @@ body {
 }
 
 .axis--x path {
-  display: none;
+  // display: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }

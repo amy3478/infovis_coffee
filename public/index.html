@@ -2,58 +2,47 @@
 <html>
 <head>
 	<title>Coffee Market</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-<body>
+<body onload="init()">
 	<div class="coffee-container">
 		<div class="controls">
 			<div class="row">
 				<div class="col-md-4 col-xs-12">
 					<label for="xdropdown">X</label>
-					<div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" id="xdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					    Dropdown
-					    <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					    <li><a href="#">Action</a></li>
-					    <li><a href="#">Another action</a></li>
-					    <li><a href="#">Something else here</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="#">Separated link</a></li>
-					  </ul>
-					</div>
+					<select id="xdropdown" class="selectpicker">
+						<option>Region</option>
+						<option>Category</option>
+					</select>
 				</div>
 				<div class="col-md-4 col-xs-12">
 					<label for="ydropdown">Y</label>
-					<div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" id="ydropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					    Dropdown
-					    <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					    <li><a href="#">Action</a></li>
-					    <li><a href="#">Another action</a></li>
-					    <li><a href="#">Something else here</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="#">Separated link</a></li>
-					  </ul>
-					</div>
+					<select id="ydropdown" class="selectpicker">
+						<option>Sales</option>
+						<option>Profit</option>
+					</select>
 				</div>
 				<div class="col-md-4 col-xs-12">
-					<button class="btn btn-default" onClick="sort();">Update</button>
+					<button class="btn btn-default" onClick="updateClicked()">Update</button>
 				</div>
 			</div>
 		</div>
-		<div id="vis" width="960" height="640">
+		<div class="row">
+			<div id="vis">
 			
+			</div>
 		</div>
+		
 		
 	</div>
  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

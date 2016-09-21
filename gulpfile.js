@@ -11,6 +11,11 @@ var bootstrapSass =  {
 	in: './node_modules/bootstrap-sass/'
 };
 
+// Bootstrap select source
+var bootstrapSelect =  {
+    in: './node_modules/bootstrap-select/'
+};
+
 // Bootstrap fonts source
 var fonts = {
         in: [source + 'fonts/*.*', bootstrapSass.in + 'assets/fonts/**/*'],
@@ -30,8 +35,25 @@ var scss = {
     }
 };
 
+var select = {
+    in: bootstrapSelect.in + 'sass/bootstrap-select.scss',
+    out: dest + 'css/',
+    sassOpts: {
+        outputStyle: 'nested',
+        precison: 3,
+        errLogToConsole: true
+    }
+};
+
+gulp.task('select', function() {
+    return gulp
+        .src(select.in)
+        .pipe(sass(select.sassOpts))
+        .pipe(gulp.dest(select.out));
+});
+
 // copy bootstrap required fonts to dest
-gulp.task('fonts', function () {
+gulp.task('fonts',['select'], function () {
     return gulp
         .src(fonts.in)
         .pipe(gulp.dest(fonts.out));

@@ -1,32 +1,47 @@
-$(function(){
-  
-  $(".dropdown-menu li a").click(function(){
-    
-    $(".btn:first-child").innerHtml = $(this).text()+"<span class='caret'></span>";
-  });
-
-});
-
 
 var regionSalesData;
 var regionProfitData;
 var categorySalesData;
 var categoryProfitData;
 
-var vis = d3.select("#vis"),
-	margin = {top: 20, right: 20, bottom: 30, left: 60},
-    width = +vis.attr("width") - margin.left - margin.right,
-    height = +vis.attr("height") - margin.top - margin.bottom,
-	chart = vis.append('svg')
+var vis,
+	chart,
+	margin = {top: 20, right: 40, bottom: 30, left: 20},
+    width = $("#vis").width(),
+    height = width / 4 * 3,
+    visW = width - margin.left - margin.right,
+    visH = height - margin.top - margin.bottom;
+
+var x = d3.scaleBand().rangeRound([0, visW]).padding(0.3),
+	y = d3.scaleLinear().rangeRound([visH, 0]).domain([0, 1000]);
+
+
+function init() {
+	chart = d3.select("#vis").append('svg')
 		.classed("chart",true)
-		.attr("width", vis.attr("width"))
-		.attr("height", vis.attr("height"));
+		.attr("width", width)
+		.attr("height", height);
 
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.3),
-	y = d3.scaleLinear().rangeRound([height, 0]);
+	vis = chart.append('g')
+		.attr("width", visW)
+		.attr("height", visH)
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var g = chart.append('g')
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	initData();
+
+	vis.append("g")
+		.attr("class", "axis axis--x")
+		.attr("transform", "translate(0," + visH + ")")
+		.call(d3.axisBottom(x));
+
+    vis.append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", "translate(" + visW + ", 0 )")
+      .call(d3.axisRight(y).ticks(6));
+
+   updateClicked();
+}
+
 
 // Data aggregation
 function initData() {
@@ -81,42 +96,98 @@ function initData() {
 			})
 			.entries(csv_data);
 		console.log("categoryProfitData", categoryProfitData);
-
-		update(regionSalesData);
-
+		 update(regionSalesData);
 	});
 }
 
-function update(data) {
-	x.domain(data.map(function(d) { return d.key;}));
-	y.domain([0, d3.max(data, function(d) {return d.value;})]);
+function updateClicked(){
+  var xOption = getXSelectedOption();
+  var yOption = getYSelectedOption();
 
-	g.append("g")
-		.attr("class", "axis asix--x")
-		.attr("transform", "translate(0," + height + ")")
-      	.call(d3.axisBottom(x));
-
-    g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(6))
-   	  .append("text")
-      .attr("transform", "translate(" + width + "," + 0 + ")")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Sales");
-
-    g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.key); })
-      .attr("y", function(d) { return y(d.value); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.value); });
+  console.log("xOption", xOption);
+  switch (xOption) {
+  	case "Region":
+  		if (yOption === "Sales") {
+  			console.log("regionSalesData");
+  			update(regionSalesData);
+  		} else if (yOption === "Profit") {
+  			console.log("regionProfitData");
+  			update(regionProfitData);
+  		}
+  		break;
+  	case "Category":
+  		if (yOption === "Sales") {
+  			console.log("categorySalesData");
+  			update(categorySalesData);
+  		} else if (yOption === "Profit") {
+  			console.log("categoryProfitData");
+  			update(categoryProfitData);
+  		}
+  		break;
+  }
 }
 
-// Setup Axis
+function update(data) {
+	var myX = d3.scaleBand()
+		.rangeRound([0, visW])
+		.padding(0.3)
+		.domain(data.map(function(d) { return d.key;}));
 
-initData();
+	var myY = d3.scaleLinear()
+		.rangeRound([visH, 0])
+		.domain([0, d3.max(data, function(d) {return d.value;})]);
+
+
+
+	vis.select(".axis--x")
+		.transition()
+		.duration(500)
+		.call(d3.axisBottom().scale(myX));
+
+	vis.select(".axis--y")
+		.transition()
+		.duration(500)
+		.call(d3.axisRight().scale(myY).ticks(6));
+
+	var u = vis.selectAll(".bar")
+		.data(data);
+
+	u.enter()
+		.append("rect")
+		.classed("bar", true)
+		.attr("x", function(d) { return myX(d.key); })
+		.attr("y", function(d) { return visH; })
+		.attr("width", myX.bandwidth())
+		.attr("height", function(d) { return 0; })
+		.merge(u)
+	    .transition()
+	    .duration(500)
+		.attr("y", function(d) { return myY(d.value); })
+		.attr("height", function(d) { return visH - myY(d.value); });
+
+	u.exit()
+		.transition()
+		.duration(500)
+		.attr("y", function(d) { return visH; })
+		.attr("height", function(d) { return 0; })
+		.each('end', function() {
+			d3.select(this).remove();
+		});
+}
+
+// Returns the selected option in the X-axis dropdown. Use d[getXSelectedOption()] to retrieve value instead of d.getXSelectedOption()
+function getXSelectedOption(){
+  var node = d3.select('#xdropdown').node();
+  var i = node.selectedIndex;
+  return node[i].value;
+}
+
+// Returns the selected option in the X-axis dropdown. 
+function getYSelectedOption(){
+  var node = d3.select('#ydropdown').node();
+  var i = node.selectedIndex;
+  return node[i].value;
+}
+
+
 
